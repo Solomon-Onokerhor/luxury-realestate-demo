@@ -180,32 +180,47 @@ wrapLinesForReveal('.contact-header h2');
 wrapLinesForReveal('.footer-hero .massive-text');
 
 /* ===================================
-   4. VIDEO SCRUBBING
+   4. VIDEO SCRUBBING (BLOB PRELOADER)
 =================================== */
 const showcase  = document.getElementById('showcase');
 const video     = document.getElementById('scrubVideo');
 const progressBar = document.getElementById('progressBar');
 
 if (showcase && video) {
-    video.currentTime = 0.1;
-
-    const tlVideo = gsap.timeline({
-        scrollTrigger: {
-            trigger: showcase,
-            start: 'top top',
-            end:   'bottom bottom',
-            scrub: 0.5,
-        }
-    });
-
-    function setupVideoScrub() {
-        const dur = video.duration || 8;
-        tlVideo.to(video,       { currentTime: dur, ease: 'none', duration: 1 }, 0);
-        if (progressBar)
-            tlVideo.to(progressBar, { width: '100%',  ease: 'none', duration: 1 }, 0);
-    }
-    if (video.readyState >= 1) setupVideoScrub();
-    else video.addEventListener('loadedmetadata', setupVideoScrub);
+    // 1. Fetch video as a blob to prevent network buffering during scrub
+    const videoSrc = video.getAttribute('src') || 'hero-video-scrub.mp4';
+    
+    fetch(videoSrc)
+        .then(response => response.blob())
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            video.setAttribute('src', blobUrl);
+            video.load();
+            
+            video.addEventListener('loadedmetadata', () => {
+                video.currentTime = 0.1;
+                
+                const tlVideo = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: showcase,
+                        start: 'top top',
+                        end:   'bottom bottom',
+                        scrub: 0.5,
+                    }
+                });
+                
+                const dur = video.duration || 8;
+                tlVideo.to(video, { currentTime: dur, ease: 'none', duration: 1 }, 0);
+                if (progressBar) {
+                    tlVideo.to(progressBar, { width: '100%',  ease: 'none', duration: 1 }, 0);
+                }
+            });
+        })
+        .catch(err => {
+            console.error("Error preloading video:", err);
+            // Fallback to basic if fetch fails
+            video.currentTime = 0.1;
+        });
 }
 
 // Scroll step fade/scale
