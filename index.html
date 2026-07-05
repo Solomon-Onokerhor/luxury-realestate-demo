@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prestige | Exaggerated Minimalism</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts: Cinzel & Josefin Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Josefin+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- Lenis Smooth Scroll -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+</head>
+<body>
+
+    <!-- SCROLL PROGRESS BAR -->
+    <div id="scrollProgress"></div>
+
+    <!-- CUSTOM CURSOR -->
+    <div class="cursor-dot" id="cursorDot"></div>
+
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-counter" id="preloaderCounter">0%</div>
+    </div>
+
+    <!-- NAV -->
+    <nav>
+        <div class="logo">PRESTIGE</div>
+        <div class="menu">MENU</div>
+    </nav>
+
+    <!-- MASSIVE HERO -->
+    <section class="hero">
+        <h1 class="massive-text">
+            <span>BEYOND</span>
+            <span>ORDINARY</span>
+            <span class="outline">LIVING</span>
+        </h1>
+        <p class="hero-sub">Exaggerated minimalism. Statement design.</p>
+    </section>
+
+    <!-- SPLIT SCREEN VIDEO SHOWCASE -->
+    <section class="showcase" id="showcase">
+        <div class="showcase-left">
+            <div class="scroll-content">
+                <div class="scroll-step">
+                    <h2>01</h2>
+                    <h3>FOUNDATION</h3>
+                    <p>Where architectural brilliance meets the ground. We build not just homes, but legacies that stand the test of time.</p>
+                </div>
+                <div class="scroll-step">
+                    <h2>02</h2>
+                    <h3>ELEVATION</h3>
+                    <p>Rising above the skyline. Every beam placed with precision, every floor a testament to uncompromising luxury.</p>
+                </div>
+                <div class="scroll-step">
+                    <h2>03</h2>
+                    <h3>PINNACLE</h3>
+                    <p>The masterpiece complete. A symphony of glass, steel, and light, redefining the horizon.</p>
+                </div>
+            </div>
+        </div>
+        <div class="showcase-right">
+            <div class="video-sticky" id="videoSticky">
+                <video id="scrubVideo" src="hero-video-scrub.mp4" playsinline muted preload="auto"></video>
+                <div class="video-overlay">
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HORIZONTAL GALLERY -->
+    <section class="gallery-section" id="gallerySection">
+        <h2 class="gallery-title">THE ESTATES</h2>
+        <div class="gallery-track" id="galleryTrack">
+            <div class="gallery-item"><img src="img1.png" alt="Mansion"></div>
+            <div class="gallery-item"><img src="img2.png" alt="Pool"></div>
+            <div class="gallery-item"><img src="img3.png" alt="Interior"></div>
+            <div class="gallery-item">
+                <div class="gallery-cta">
+                    <h3>VIEW ALL</h3>
+                    <p>Explore the portfolio</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOVER REVEAL AMENITIES -->
+    <section class="amenities-section">
+        <div class="amenities-list">
+            <div class="amenity-item" data-img="img1.png">
+                <span class="amenity-num">01</span>
+                <span class="amenity-name">GRAND ATRIUM</span>
+            </div>
+            <div class="amenity-item" data-img="img2.png">
+                <span class="amenity-num">02</span>
+                <span class="amenity-name">INFINITY POOL</span>
+            </div>
+            <div class="amenity-item" data-img="img3.png">
+                <span class="amenity-num">03</span>
+                <span class="amenity-name">WINE CELLAR</span>
+            </div>
+            <div class="amenity-item" data-img="img1.png">
+                <span class="amenity-num">04</span>
+                <span class="amenity-name">CINEMA ROOM</span>
+            </div>
+        </div>
+        <div class="amenity-preview" id="amenityPreview">
+            <img src="" alt="Preview" id="amenityImage">
+        </div>
+    </section>
+
+    <!-- CONTACT FORM -->
+    <section class="contact-section">
+        <div class="contact-header">
+            <h2>INQUIRE</h2>
+            <p>Private viewings by appointment only.</p>
+        </div>
+        <form class="minimal-form">
+            <div class="form-group">
+                <input type="text" placeholder="YOUR NAME" required>
+            </div>
+            <div class="form-group">
+                <input type="email" placeholder="EMAIL ADDRESS" required>
+            </div>
+            <div class="form-group">
+                <textarea placeholder="MESSAGE" rows="1" required></textarea>
+            </div>
+            <button type="button" class="btn-submit">SUBMIT INQUIRY</button>
+        </form>
+    </section>
+
+    <!-- MASSIVE FOOTER -->
+    <section class="footer-hero">
+        <h1 class="massive-text text-center">
+            <span>THE</span>
+            <span>FUTURE</span>
+            <span class="outline">AWAITS</span>
+        </h1>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PRESTIGE REALTY</p>
+            <p>DESIGNED FOR LUXURY</p>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
