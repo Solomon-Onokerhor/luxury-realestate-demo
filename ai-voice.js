@@ -214,14 +214,23 @@ FUNNEL STEPS (Follow strictly in order):
                 const leadMatch = aiText.match(/\[LEAD_CAPTURED:\s*(\{.*?\})\s*\]/);
                 if (leadMatch) {
                     try {
-                        const leadData = JSON.parse(leadMatch[1]);
-                        const existingLeads = JSON.parse(localStorage.getItem('prestige_leads') || '[]');
-                        existingLeads.push(leadData);
-                        localStorage.setItem('prestige_leads', JSON.stringify(existingLeads));
-                        console.log("Lead Saved to LocalStorage:", leadData);
+                        if (!this.hasCapturedLead) {
+                            const leadData = JSON.parse(leadMatch[1]);
+                            const existingLeads = JSON.parse(localStorage.getItem('prestige_leads') || '[]');
+                            
+                            // Extra check to prevent exact email duplicates
+                            const isDuplicate = existingLeads.some(l => l.email && leadData.email && l.email.toLowerCase() === leadData.email.toLowerCase());
+                            
+                            if (!isDuplicate) {
+                                existingLeads.push(leadData);
+                                localStorage.setItem('prestige_leads', JSON.stringify(existingLeads));
+                                console.log("Lead Saved to LocalStorage:", leadData);
+                            }
+                            this.hasCapturedLead = true;
+                        }
                         
                         // Clean the text so ElevenLabs doesn't speak the JSON
-                        aiText = aiText.replace(/\[LEAD_CAPTURED:\s*(\{.*?\})\s*\]/, '');
+                        aiText = aiText.replace(/\[LEAD_CAPTURED:\s*(\{.*?\})\s*\]/g, '');
                     } catch(e) {
                         console.error("Failed to parse lead data", e);
                     }
