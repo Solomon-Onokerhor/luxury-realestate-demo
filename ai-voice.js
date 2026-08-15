@@ -7,7 +7,7 @@ class AIVoiceConcierge {
         this.closeBtn = document.getElementById('ai-voice-close');
         
         this.groqKey = "gsk_" + "oiagPKwjCQkx4PSYCHXhWGdyb3FYpLtGrQdOfoPxbhmpMJrChGJh";
-        this.elevenLabsKey = "sk_" + "98a2f7565af52229be5235593f6c8cf5770b0ed138a6410d";
+        this.elevenLabsKey = "sk_" + "94dc8c0df728763756f5485245c2e0e1dbb4297f23e3e686";
         this.voiceId = "EXAVITQu4vr4xnSDxMaL"; // Sarah (Professional Female)
         
         this.isListening = false;
