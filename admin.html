@@ -7,9 +7,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --fg: #f8fafc;
-            --accent: #38bdf8;
+            --bg: #f9f6f0;       /* Cream background */
+            --fg: #134e4a;       /* Deep Teal text */
+            --accent: #b45309;   /* Bronze accent */
         }
         body {
             background-color: var(--bg);
@@ -24,17 +24,19 @@
         h1 {
             font-family: 'Cinzel', serif;
             letter-spacing: 0.1em;
-            color: var(--accent);
+            color: var(--fg);
             margin-bottom: 2rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
         }
         .dashboard {
             width: 100%;
             max-width: 1000px;
-            background: rgba(255,255,255,0.05);
+            background: #ffffff;
             border-radius: 12px;
             padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(19, 78, 74, 0.1);
+            border: 1px solid rgba(19, 78, 74, 0.1);
         }
         table {
             width: 100%;
@@ -44,26 +46,27 @@
         th, td {
             padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(19, 78, 74, 0.1);
         }
         th {
             font-weight: 600;
-            color: #94a3b8;
+            color: var(--accent);
             text-transform: uppercase;
             font-size: 0.85rem;
             letter-spacing: 0.05em;
         }
         td {
             font-size: 1.1rem;
+            color: var(--fg);
         }
         .empty-state {
             text-align: center;
             padding: 3rem;
-            color: #94a3b8;
+            color: #64748b;
             font-style: italic;
         }
         .refresh-btn {
-            background: var(--accent);
+            background: var(--fg);
             color: var(--bg);
             border: none;
             padding: 0.75rem 1.5rem;
@@ -75,7 +78,8 @@
             transition: opacity 0.3s;
         }
         .refresh-btn:hover {
-            opacity: 0.8;
+            opacity: 0.9;
+            background: var(--accent);
         }
     </style>
 </head>
