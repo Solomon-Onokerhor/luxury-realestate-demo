@@ -10,6 +10,7 @@ class AIVoiceConcierge {
         
         this.isListening = false;
         this.isSpeaking = false;
+        this.isConversationActive = false; // Tracks if the live convo loop is running
         this.audioElement = new Audio();
         
         this.chatHistory = [
@@ -52,37 +53,70 @@ class AIVoiceConcierge {
         this.recognition.onerror = (event) => {
             console.error("Speech Recognition Error:", event.error);
             this.stopListening();
+            // Attempt to restart if in active conversation mode and error wasn't fatal
+            if (this.isConversationActive && event.error !== 'not-allowed') {
+                setTimeout(() => this.startListening(), 1000);
+            }
         };
 
         this.recognition.onend = () => {
             this.stopListening();
+            // If the user didn't say anything (no result triggered processInput) and convo is active, restart listening
+            if (this.isConversationActive && !this.isSpeaking && !this.isProcessing) {
+                this.startListening();
+            }
         };
+    }
+
+    startListening() {
+        if (!this.isListening && !this.isSpeaking) {
+            try {
+                this.recognition.start();
+            } catch (e) {
+                console.error("Failed to start recognition:", e);
+            }
+        }
     }
 
     attachEvents() {
         this.btn.addEventListener('click', () => {
-            if (this.isSpeaking) {
-                // Stop audio if currently speaking
-                this.audioElement.pause();
-                this.audioElement.currentTime = 0;
-                this.stopSpeaking();
-            } else if (this.isListening) {
-                this.recognition.stop();
+            if (this.isConversationActive) {
+                // Turn OFF Live Conversation
+                this.isConversationActive = false;
+                this.isProcessing = false;
+                if (this.isSpeaking) {
+                    this.audioElement.pause();
+                    this.audioElement.currentTime = 0;
+                    this.stopSpeaking();
+                }
+                if (this.isListening) {
+                    this.recognition.stop();
+                }
+                console.log("Live Conversation Ended");
             } else {
-                this.recognition.start();
+                // Turn ON Live Conversation
+                this.isConversationActive = true;
+                this.startListening();
+                console.log("Live Conversation Started");
             }
         });
         
         this.audioElement.addEventListener('ended', () => {
             this.stopSpeaking();
+            // Auto-resume listening for the next turn in the conversation
+            if (this.isConversationActive) {
+                this.startListening();
+            }
         });
     }
 
     stopListening() {
         this.isListening = false;
         this.btn.classList.remove('listening');
-        this.micIcon.style.display = 'block';
-        this.stopIcon.style.display = 'none';
+        if (!this.isConversationActive) {
+            this.micIcon.style.display = 'block';
+            this.stopIcon.style.display = 'none';
+        }
     }
     
     stopSpeaking() {
@@ -91,6 +125,7 @@ class AIVoiceConcierge {
     }
 
     async processInput(text) {
+        this.isProcessing = true;
         this.chatHistory.push({ role: "user", content: text });
         
         // 1. Get LLM response from Groq
@@ -116,10 +151,12 @@ class AIVoiceConcierge {
                 console.log("AI says:", aiText);
                 
                 // 2. Generate Audio via ElevenLabs
-                this.speak(aiText);
+                await this.speak(aiText);
             }
         } catch (e) {
             console.error("Groq Error:", e);
+        } finally {
+            this.isProcessing = false;
         }
     }
 
@@ -153,10 +190,14 @@ class AIVoiceConcierge {
             } else {
                 console.error("ElevenLabs Error:", await elRes.text());
                 this.stopSpeaking();
+                this.isProcessing = false;
+                if (this.isConversationActive) this.startListening();
             }
         } catch (e) {
             console.error("ElevenLabs Request Error:", e);
             this.stopSpeaking();
+            this.isProcessing = false;
+            if (this.isConversationActive) this.startListening();
         }
     }
 }
