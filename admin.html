@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | Prestige Real Estate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;600&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --fg: #f8fafc;
+            --accent: #38bdf8;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--fg);
+            font-family: 'Josefin Sans', sans-serif;
+            margin: 0;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+        .dashboard {
+            width: 100%;
+            max-width: 1000px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        th {
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+        td {
+            font-size: 1.1rem;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #94a3b8;
+            font-style: italic;
+        }
+        .refresh-btn {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: opacity 0.3s;
+        }
+        .refresh-btn:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Lead CRM Dashboard</h1>
+    
+    <div class="dashboard">
+        <button class="refresh-btn" onclick="loadLeads()">Refresh Leads</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Full Name</th>
+                    <th>Phone Number</th>
+                    <th>Email Address</th>
+                </tr>
+            </thead>
+            <tbody id="lead-table-body">
+                <!-- Leads will be injected here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function loadLeads() {
+            const tbody = document.getElementById('lead-table-body');
+            tbody.innerHTML = '';
+            
+            const leads = JSON.parse(localStorage.getItem('prestige_leads') || '[]');
+            
+            if (leads.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="empty-state">No leads captured yet. Run a test on the main site!</td></tr>`;
+                return;
+            }
+            
+            // Reverse so newest is at the top
+            leads.reverse().forEach(lead => {
+                const tr = document.createElement('tr');
+                const now = new Date().toLocaleTimeString(); // Simulated timestamp
+                tr.innerHTML = `
+                    <td style="color: #94a3b8; font-size: 0.9rem;">Just now</td>
+                    <td>${lead.name || 'N/A'}</td>
+                    <td>${lead.phone || 'N/A'}</td>
+                    <td>${lead.email || 'N/A'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        // Initial load
+        loadLeads();
+        
+        // Auto refresh every 2 seconds
+        setInterval(loadLeads, 2000);
+    </script>
+</body>
+</html>

@@ -48,7 +48,9 @@ FUNNEL STEPS (Follow strictly in order):
    - After they answer, DO NOT ask them to spell it out. Instead, immediately read it back to them clearly and ask if it is correct (e.g., "Thank you. 5-5-5-0-1-9-9. Is that correct?" or "J-O-H-N at G-M-A-I-L dot com. Is that correct?").
 
    ONLY move to the next item after they say "yes". If they say "no", ask them to repeat it.
-5. Once all three are confirmed, finalize the booking and say an agent will reach out shortly.`
+5. Once all three are confirmed, finalize the booking and say an agent will reach out shortly. 
+   CRITICAL: On your final confirmation message, you MUST append this EXACT string at the very end of your response:
+   [LEAD_CAPTURED: {"name":"their_name", "phone":"their_phone", "email":"their_email"}]`
             }
         ];
 
@@ -206,7 +208,25 @@ FUNNEL STEPS (Follow strictly in order):
             
             const groqData = await groqRes.json();
             if (groqData.choices && groqData.choices[0].message) {
-                const aiText = groqData.choices[0].message.content;
+                let aiText = groqData.choices[0].message.content;
+                
+                // Extract lead capture data if present
+                const leadMatch = aiText.match(/\[LEAD_CAPTURED:\s*(\{.*?\})\s*\]/);
+                if (leadMatch) {
+                    try {
+                        const leadData = JSON.parse(leadMatch[1]);
+                        const existingLeads = JSON.parse(localStorage.getItem('prestige_leads') || '[]');
+                        existingLeads.push(leadData);
+                        localStorage.setItem('prestige_leads', JSON.stringify(existingLeads));
+                        console.log("Lead Saved to LocalStorage:", leadData);
+                        
+                        // Clean the text so ElevenLabs doesn't speak the JSON
+                        aiText = aiText.replace(/\[LEAD_CAPTURED:\s*(\{.*?\})\s*\]/, '');
+                    } catch(e) {
+                        console.error("Failed to parse lead data", e);
+                    }
+                }
+                
                 this.chatHistory.push({ role: "assistant", content: aiText });
                 console.log("AI says:", aiText);
                 
