@@ -479,3 +479,82 @@ nav {
     0% { transform: scale(1); opacity: 0.6; }
     100% { transform: scale(1.6); opacity: 0; }
 }
+
+/* ===== IMMERSIVE AI OVERLAY ===== */
+.ai-voice-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(19, 78, 74, 0.85); /* var(--fg) with opacity */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+body.ai-active .ai-voice-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Close button */
+.ai-voice-close {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: transparent;
+    border: none;
+    color: var(--bg);
+    cursor: none;
+    opacity: 0.6;
+    transition: opacity 0.3s, transform 0.3s;
+}
+.ai-voice-close:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Status Text */
+.ai-voice-status {
+    position: absolute;
+    bottom: 25%;
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: var(--bg);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+}
+
+body.ai-active .ai-voice-status {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Transform the button when active */
+body.ai-active .ai-voice-btn {
+    bottom: 50%;
+    right: 50%;
+    transform: translate(50%, 50%) scale(2.5);
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+}
+
+/* Enhanced orb glow when AI is speaking */
+body.ai-active .ai-voice-btn.speaking {
+    background: var(--bg);
+    color: var(--fg);
+    box-shadow: 0 0 100px rgba(14, 165, 233, 0.8);
+    animation: ai-glow 2s infinite alternate;
+}
+
+@keyframes ai-glow {
+    0% { box-shadow: 0 0 50px rgba(14, 165, 233, 0.5); }
+    100% { box-shadow: 0 0 120px rgba(14, 165, 233, 1); }
+}

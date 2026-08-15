@@ -3,6 +3,8 @@ class AIVoiceConcierge {
         this.btn = document.getElementById('ai-voice-btn');
         this.micIcon = this.btn.querySelector('.mic-icon');
         this.stopIcon = this.btn.querySelector('.stop-icon');
+        this.statusEl = document.getElementById('ai-voice-status');
+        this.closeBtn = document.getElementById('ai-voice-close');
         
         this.groqKey = "gsk_" + "oiagPKwjCQkx4PSYCHXhWGdyb3FYpLtGrQdOfoPxbhmpMJrChGJh";
         this.elevenLabsKey = "sk_" + "98a2f7565af52229be5235593f6c8cf5770b0ed138a6410d";
@@ -43,6 +45,7 @@ class AIVoiceConcierge {
             this.btn.classList.add('listening');
             this.micIcon.style.display = 'none';
             this.stopIcon.style.display = 'block';
+            this.updateStatus("Listening...");
         };
 
         this.recognition.onresult = (event) => {
@@ -80,7 +83,7 @@ class AIVoiceConcierge {
     }
 
     attachEvents() {
-        this.btn.addEventListener('click', () => {
+        const toggleConversation = () => {
             if (!this.isSupported) {
                 alert("Your browser does not support the Web Speech API. Please open this site in Google Chrome, Microsoft Edge, or Safari to use the Voice AI feature.");
                 return;
@@ -89,6 +92,7 @@ class AIVoiceConcierge {
                 // Turn OFF Live Conversation
                 this.isConversationActive = false;
                 this.isProcessing = false;
+                document.body.classList.remove('ai-active');
                 if (this.isSpeaking) {
                     this.audioElement.pause();
                     this.audioElement.currentTime = 0;
@@ -101,10 +105,20 @@ class AIVoiceConcierge {
             } else {
                 // Turn ON Live Conversation
                 this.isConversationActive = true;
+                document.body.classList.add('ai-active');
+                this.updateStatus("Connecting...");
                 this.startListening();
                 console.log("Live Conversation Started");
             }
-        });
+        };
+
+        this.btn.addEventListener('click', toggleConversation);
+        
+        if (this.closeBtn) {
+            this.closeBtn.addEventListener('click', () => {
+                if (this.isConversationActive) toggleConversation();
+            });
+        }
         
         this.audioElement.addEventListener('ended', () => {
             this.stopSpeaking();
@@ -113,6 +127,12 @@ class AIVoiceConcierge {
                 this.startListening();
             }
         });
+    }
+
+    updateStatus(text) {
+        if (this.statusEl) {
+            this.statusEl.textContent = text;
+        }
     }
 
     stopListening() {
@@ -131,6 +151,7 @@ class AIVoiceConcierge {
 
     async processInput(text) {
         this.isProcessing = true;
+        this.updateStatus("Processing...");
         this.chatHistory.push({ role: "user", content: text });
         
         // 1. Get LLM response from Groq
@@ -168,6 +189,7 @@ class AIVoiceConcierge {
     async speak(text) {
         this.btn.classList.add('speaking');
         this.isSpeaking = true;
+        this.updateStatus("Prestige AI is speaking...");
         
         try {
             const elRes = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${this.voiceId}`, {
