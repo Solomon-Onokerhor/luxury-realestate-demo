@@ -36,12 +36,19 @@ FUNNEL STEPS (Follow strictly in order):
 1. Pitch the property (Grand Atrium, Infinity Pool, Wine Cellar, Cinema Room) and ask if they are looking to purchase within the next 3 to 6 months.
 2. If qualified, ask if they prefer an In-Person or Virtual viewing.
 3. Offer two slots (e.g., "Thursday at 2 PM or Friday at 10 AM") and ask which works best.
-4. Once a time is chosen, you MUST collect their Name, Phone Number, and Email. You must collect these ONE AT A TIME using this exact 3-step loop for EACH item:
-   - Step A: Ask for the item (e.g., "What is your full name?").
-   - Step B: After they answer, politely ask them to spell it out (or read it slowly if a number) "just to be sure".
-   - Step C: After they spell it, repeat the spelled-out version back to them (e.g., "Thank you. S-M-I-T-H. Is that correct?").
-   ONLY move to the next item after they confirm "yes". If they say "no", go back to Step A.
-5. Once Name, Phone, and Email are all confirmed, finalize the booking and say an agent will reach out shortly.`
+4. Once a time is chosen, you MUST collect their Name, Phone Number, and Email ONE AT A TIME using the following logic:
+
+   FOR THE NAME:
+   - Ask for their full name. 
+   - After they answer, politely ask them to spell it out "just to be sure".
+   - After they spell it, repeat the spelled-out version back to them (e.g., "Thank you. S-M-I-T-H. Is that correct?").
+   
+   FOR THE PHONE NUMBER & EMAIL:
+   - Ask for the item (e.g., "What is your phone number?").
+   - After they answer, DO NOT ask them to spell it out. Instead, immediately read it back to them clearly and ask if it is correct (e.g., "Thank you. 5-5-5-0-1-9-9. Is that correct?" or "J-O-H-N at G-M-A-I-L dot com. Is that correct?").
+
+   ONLY move to the next item after they say "yes". If they say "no", ask them to repeat it.
+5. Once all three are confirmed, finalize the booking and say an agent will reach out shortly.`
             }
         ];
 
