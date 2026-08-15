@@ -461,6 +461,45 @@ nav {
     background: #0ea5e9; /* Blue speaking indicator */
 }
 
+/* AI Voice Tooltip */
+.ai-voice-tooltip {
+    position: absolute;
+    right: 80px; /* To the left of the button */
+    top: 50%;
+    transform: translateY(-50%) translateX(20px);
+    background: var(--fg);
+    color: var(--bg);
+    padding: 0.75rem 1.5rem;
+    border-radius: 100px;
+    font-family: 'Josefin Sans', sans-serif;
+    font-size: 1rem;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.ai-voice-tooltip::after {
+    content: '';
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-width: 6px 0 6px 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--fg);
+}
+
+.ai-voice-tooltip.show {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+}
+
+body.ai-active .ai-voice-tooltip {
+    display: none;
+}
+
 /* Pulsing effect when listening */
 .ai-voice-pulse {
     position: absolute;

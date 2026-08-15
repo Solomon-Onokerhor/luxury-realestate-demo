@@ -14,6 +14,14 @@ class AIVoiceConcierge {
         this.isSpeaking = false;
         this.isConversationActive = false; // Tracks if the live convo loop is running
         this.audioElement = new Audio();
+        this.tooltip = this.btn.querySelector('.ai-voice-tooltip');
+        
+        // Show tooltip after 3 seconds
+        setTimeout(() => {
+            if (this.tooltip && !this.isConversationActive) {
+                this.tooltip.classList.add('show');
+            }
+        }, 3000);
         
         this.chatHistory = [
             {
@@ -114,6 +122,10 @@ Keep your answers very concise (under 2 sentences). Your tone is ultra-premium, 
                 console.log("Live Conversation Started");
             }
         };
+
+        this.btn.addEventListener('mouseenter', () => {
+            if (this.tooltip) this.tooltip.classList.remove('show');
+        });
 
         this.btn.addEventListener('click', toggleConversation);
         
