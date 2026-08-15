@@ -81,6 +81,23 @@
             opacity: 0.9;
             background: var(--accent);
         }
+        .clear-btn {
+            background: transparent;
+            color: #ef4444;
+            border: 1px solid #ef4444;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            font-family: 'Josefin Sans', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            margin-left: 1rem;
+            transition: all 0.3s;
+        }
+        .clear-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -88,7 +105,10 @@
     <h1>Lead CRM Dashboard</h1>
     
     <div class="dashboard">
-        <button class="refresh-btn" onclick="loadLeads()">Refresh Leads</button>
+        <div style="display: flex;">
+            <button class="refresh-btn" onclick="loadLeads()">Refresh Leads</button>
+            <button class="clear-btn" onclick="clearLeads()">Clear Data</button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -128,6 +148,13 @@
                 `;
                 tbody.appendChild(tr);
             });
+        }
+        
+        function clearLeads() {
+            if (confirm("Are you sure you want to clear all leads?")) {
+                localStorage.removeItem('prestige_leads');
+                loadLeads();
+            }
         }
         
         // Initial load
