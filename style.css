@@ -420,7 +420,6 @@ nav {
     width: 100%;
 }
 
-/* ===== SCROLL PROGRESS BAR (top of page) ===== */
 #scrollProgress {
     position: fixed;
     top: 0; left: 0;
@@ -429,4 +428,54 @@ nav {
     background: var(--fg);
     z-index: 10001;
     transition: width 0.05s linear;
+}
+
+/* ===== AI VOICE CONCIERGE BUTTON ===== */
+.ai-voice-btn {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    width: 60px;
+    height: 60px;
+    background: var(--fg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg);
+    cursor: none;
+    z-index: 10000;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s;
+    mix-blend-mode: normal;
+}
+.ai-voice-btn:hover {
+    transform: scale(1.1);
+}
+.ai-voice-btn:active {
+    transform: scale(0.9);
+}
+.ai-voice-btn.listening {
+    background: #e11d48; /* Red recording indicator */
+}
+.ai-voice-btn.speaking {
+    background: #0ea5e9; /* Blue speaking indicator */
+}
+
+/* Pulsing effect when listening */
+.ai-voice-pulse {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 50%;
+    background: inherit;
+    z-index: -1;
+    opacity: 0;
+    transform: scale(1);
+}
+.ai-voice-btn.listening .ai-voice-pulse {
+    animation: voice-pulse 1.5s infinite;
+}
+
+@keyframes voice-pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.6); opacity: 0; }
 }
