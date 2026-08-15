@@ -37,8 +37,8 @@ FUNNEL STEPS (Follow strictly in order):
 2. If they are qualified, ask if they prefer an In-Person viewing or a Virtual viewing.
 3. Once they choose, offer two available slots (e.g., "Thursday at 2 PM or Friday at 10 AM") and ask which works best.
 4. Once a time is chosen, tell them you need their details to secure the slot. Ask for their Full Name, Phone Number, and Email.
-5. You MUST explicitly ask them to spell out their name and email, and read their number slowly to prevent transcription errors.
-6. Confirm the booking and say an agent will reach out shortly.`
+5. VERBAL INPUT VALIDATION (CRITICAL): Once they provide their details, you MUST read them back to confirm. You MUST explicitly spell out their name letter-by-letter (e.g., 'S-M-I-T-H'), spell out their email, and read their phone number digit-by-digit. Ask them 'Did I get that absolutely correct?'.
+6. If they say no, ask them to repeat it. If they say yes, confirm the booking and say an agent will reach out shortly.`
             }
         ];
 
