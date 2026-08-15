@@ -28,10 +28,11 @@ class AIVoiceConcierge {
         window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!window.SpeechRecognition) {
             console.error("Speech Recognition not supported in this browser.");
-            this.btn.style.display = 'none';
+            this.isSupported = false;
             return;
         }
-
+        
+        this.isSupported = true;
         this.recognition = new window.SpeechRecognition();
         this.recognition.continuous = false;
         this.recognition.interimResults = false;
@@ -80,6 +81,10 @@ class AIVoiceConcierge {
 
     attachEvents() {
         this.btn.addEventListener('click', () => {
+            if (!this.isSupported) {
+                alert("Your browser does not support the Web Speech API. Please open this site in Google Chrome, Microsoft Edge, or Safari to use the Voice AI feature.");
+                return;
+            }
             if (this.isConversationActive) {
                 // Turn OFF Live Conversation
                 this.isConversationActive = false;
