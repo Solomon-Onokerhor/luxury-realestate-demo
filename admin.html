@@ -157,6 +157,13 @@
             }
         }
         
+        // Auto-wipe if ?reset=true is in URL
+        if (window.location.search.includes('reset=true')) {
+            localStorage.removeItem('prestige_leads');
+            // Clean up the URL so it doesn't keep resetting on refresh
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+        
         // Initial load
         loadLeads();
         
